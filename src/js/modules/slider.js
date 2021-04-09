@@ -20,6 +20,8 @@ export default class Slider {
         this.slides.forEach(slide => {
             slide.style.display = 'none';
         });
+        // Скрытие всплывающего блока на 3-м слайде
+        this.hanson.style.opacity = '0';
         // По умолчанию показ первого слайда
         this.slides[this.slideIndex - 1].style.display = 'block';
     }
@@ -27,12 +29,30 @@ export default class Slider {
     plusSlider(n) {
         this.showSlides(this.slideIndex += n);
     }
+    // Показ всплывающего блока при попадании на 3-й слайд
+    showMessageBlock() {
+        if (this.slideIndex == 3) {
+            this.hanson.classList.add('animated');
+            // Показ блока через 3 секунды
+            setTimeout(() => {
+                this.hanson.style.opacity = '1';
+                this.hanson.classList.add('slideInUp');
+            }, 3000);
+        } else {
+            this.hanson.classList.remove('slideInUp');
+        }
+    }
     // Инициализация слайдера
     render() {
+        // Всплывающий блок
+        try {
+            this.hanson = document.querySelector('.hanson');
+        } catch (e) {}
         // Перелистывание слайдов
         this.btns.forEach(btn => {
             btn.addEventListener('click', () => {
                 this.plusSlider(1);
+                this.showMessageBlock();
             });
             // Нажав на логотип, показывается первый слайд
             btn.parentNode.previousElementSibling.addEventListener('click', (e) => {
@@ -43,5 +63,6 @@ export default class Slider {
         });
         // Показ слайда
         this.showSlides(this.slideIndex);
+
     }
 }

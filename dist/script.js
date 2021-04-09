@@ -990,7 +990,9 @@ function () {
 
       this.slides.forEach(function (slide) {
         slide.style.display = 'none';
-      }); // По умолчанию показ первого слайда
+      }); // Скрытие всплывающего блока на 3-м слайде
+
+      this.hanson.style.opacity = '0'; // По умолчанию показ первого слайда
 
       this.slides[this.slideIndex - 1].style.display = 'block';
     } // Добавление слайдеров(изменение счетчита slideIndex в зависимости от переключения слайдера, вперед или назад)
@@ -999,24 +1001,49 @@ function () {
     key: "plusSlider",
     value: function plusSlider(n) {
       this.showSlides(this.slideIndex += n);
+    } // Показ всплывающего блока при попадании на 3-й слайд
+
+  }, {
+    key: "showMessageBlock",
+    value: function showMessageBlock() {
+      var _this = this;
+
+      if (this.slideIndex == 3) {
+        this.hanson.classList.add('animated'); // Показ блока через 3 секунды
+
+        setTimeout(function () {
+          _this.hanson.style.opacity = '1';
+
+          _this.hanson.classList.add('slideInUp');
+        }, 3000);
+      } else {
+        this.hanson.classList.remove('slideInUp');
+      }
     } // Инициализация слайдера
 
   }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
-      // Перелистывание слайдов
+      // Всплывающий блок
+      try {
+        this.hanson = document.querySelector('.hanson');
+      } catch (e) {} // Перелистывание слайдов
+
+
       this.btns.forEach(function (btn) {
         btn.addEventListener('click', function () {
-          _this.plusSlider(1);
+          _this2.plusSlider(1);
+
+          _this2.showMessageBlock();
         }); // Нажав на логотип, показывается первый слайд
 
         btn.parentNode.previousElementSibling.addEventListener('click', function (e) {
           e.preventDefault();
-          _this.slideIndex = 1;
+          _this2.slideIndex = 1;
 
-          _this.showSlides(_this.slideIndex);
+          _this2.showSlides(_this2.slideIndex);
         });
       }); // Показ слайда
 
