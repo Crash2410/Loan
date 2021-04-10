@@ -1,11 +1,15 @@
 export default class Difference {
     constructor(oldOfficer, newOfficer, items) {
-        this.oldOfficer = document.querySelector(oldOfficer);
-        this.newOfficer = document.querySelector(newOfficer);
-        this.oldItems = this.oldOfficer.querySelectorAll(items);
-        this.newItems = this.newOfficer.querySelectorAll(items);
-        this.oldCounter = 0;
-        this.newCounter = 0;
+        try {
+            this.oldOfficer = document.querySelector(oldOfficer);
+            this.newOfficer = document.querySelector(newOfficer);
+            this.oldItems = this.oldOfficer.querySelectorAll(items);
+            this.newItems = this.newOfficer.querySelectorAll(items);
+            this.oldCounter = 0;
+            this.newCounter = 0;
+        } catch (error) {
+
+        }
     }
     // Обработка триггеров
     bindTriggers(officer, counter, items) {
@@ -33,9 +37,11 @@ export default class Difference {
     }
     // Инициализация 
     init() {
-        this.hideItems(this.newItems);
-        this.hideItems(this.oldItems);
-        this.bindTriggers(this.oldOfficer, this.oldCounter, this.oldItems);
-        this.bindTriggers(this.newOfficer, this.newCounter, this.newItems);
+        try {
+            this.hideItems(this.newItems);
+            this.hideItems(this.oldItems);
+            this.bindTriggers(this.oldOfficer, this.oldCounter, this.oldItems);
+            this.bindTriggers(this.newOfficer, this.newCounter, this.newItems);
+        } catch (error) {}
     }
 }

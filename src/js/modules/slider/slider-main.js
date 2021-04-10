@@ -42,25 +42,27 @@ export default class MainSlider extends Slider {
     }
     // Инициализация слайдера
     render() {
-        // Всплывающий блок
         try {
-            this.hanson = document.querySelector('.hanson');
-        } catch (e) {}
-        // Перелистывание слайдов
-        this.btns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                this.plusSlider(1);
-                this.showMessageBlock();
+            // Всплывающий блок
+            try {
+                this.hanson = document.querySelector('.hanson');
+            } catch (e) {}
+            // Перелистывание слайдов
+            this.btns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    this.plusSlider(1);
+                    this.showMessageBlock();
+                });
+                // Нажав на логотип, показывается первый слайд
+                btn.parentNode.previousElementSibling.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.slideIndex = 1;
+                    this.showSlides(this.slideIndex);
+                });
             });
-            // Нажав на логотип, показывается первый слайд
-            btn.parentNode.previousElementSibling.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.slideIndex = 1;
-                this.showSlides(this.slideIndex);
-            });
-        });
-        // Показ слайда
-        this.showSlides(this.slideIndex);
+            // Показ слайда
+            this.showSlides(this.slideIndex);
+        } catch (error) {}
 
     }
 }

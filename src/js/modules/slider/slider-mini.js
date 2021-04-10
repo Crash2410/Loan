@@ -83,14 +83,17 @@ export default class MiniSlider extends Slider {
     }
     // Инициализация слайдера
     init() {
-        this.container.style.cssText = `
-            display: flex;
-            flex-wrap: wrap;
-            overflow: hidden;
-            align-items: flex-start;
-        `;
+        try {
+            this.container.style.cssText = `
+                display: flex;
+                flex-wrap: wrap;
+                overflow: hidden;
+                align-items: flex-start;
+            `;
 
-        this.bindTriggers();
-        this.decorizeSlider();
+            this.bindTriggers();
+            this.decorizeSlider();
+        } catch (error) {}
+
     }
 }

@@ -20257,12 +20257,14 @@ function () {
   function Difference(oldOfficer, newOfficer, items) {
     _classCallCheck(this, Difference);
 
-    this.oldOfficer = document.querySelector(oldOfficer);
-    this.newOfficer = document.querySelector(newOfficer);
-    this.oldItems = this.oldOfficer.querySelectorAll(items);
-    this.newItems = this.newOfficer.querySelectorAll(items);
-    this.oldCounter = 0;
-    this.newCounter = 0;
+    try {
+      this.oldOfficer = document.querySelector(oldOfficer);
+      this.newOfficer = document.querySelector(newOfficer);
+      this.oldItems = this.oldOfficer.querySelectorAll(items);
+      this.newItems = this.newOfficer.querySelectorAll(items);
+      this.oldCounter = 0;
+      this.newCounter = 0;
+    } catch (error) {}
   } // Обработка триггеров
 
 
@@ -20297,10 +20299,12 @@ function () {
   }, {
     key: "init",
     value: function init() {
-      this.hideItems(this.newItems);
-      this.hideItems(this.oldItems);
-      this.bindTriggers(this.oldOfficer, this.oldCounter, this.oldItems);
-      this.bindTriggers(this.newOfficer, this.newCounter, this.newItems);
+      try {
+        this.hideItems(this.newItems);
+        this.hideItems(this.oldItems);
+        this.bindTriggers(this.oldOfficer, this.oldCounter, this.oldItems);
+        this.bindTriggers(this.newOfficer, this.newCounter, this.newItems);
+      } catch (error) {}
     }
   }]);
 
@@ -20732,28 +20736,30 @@ function (_Slider) {
     value: function render() {
       var _this2 = this;
 
-      // Всплывающий блок
       try {
-        this.hanson = document.querySelector('.hanson');
-      } catch (e) {} // Перелистывание слайдов
+        // Всплывающий блок
+        try {
+          this.hanson = document.querySelector('.hanson');
+        } catch (e) {} // Перелистывание слайдов
 
 
-      this.btns.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          _this2.plusSlider(1);
+        this.btns.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            _this2.plusSlider(1);
 
-          _this2.showMessageBlock();
-        }); // Нажав на логотип, показывается первый слайд
+            _this2.showMessageBlock();
+          }); // Нажав на логотип, показывается первый слайд
 
-        btn.parentNode.previousElementSibling.addEventListener('click', function (e) {
-          e.preventDefault();
-          _this2.slideIndex = 1;
+          btn.parentNode.previousElementSibling.addEventListener('click', function (e) {
+            e.preventDefault();
+            _this2.slideIndex = 1;
 
-          _this2.showSlides(_this2.slideIndex);
-        });
-      }); // Показ слайда
+            _this2.showSlides(_this2.slideIndex);
+          });
+        }); // Показ слайда
 
-      this.showSlides(this.slideIndex);
+        this.showSlides(this.slideIndex);
+      } catch (error) {}
     }
   }]);
 
@@ -20926,9 +20932,11 @@ function (_Slider) {
   }, {
     key: "init",
     value: function init() {
-      this.container.style.cssText = "\n            display: flex;\n            flex-wrap: wrap;\n            overflow: hidden;\n            align-items: flex-start;\n        ";
-      this.bindTriggers();
-      this.decorizeSlider();
+      try {
+        this.container.style.cssText = "\n                display: flex;\n                flex-wrap: wrap;\n                overflow: hidden;\n                align-items: flex-start;\n            ";
+        this.bindTriggers();
+        this.decorizeSlider();
+      } catch (error) {}
     }
   }]);
 
@@ -20969,7 +20977,11 @@ var Slider = function Slider() {
   _classCallCheck(this, Slider);
 
   this.container = document.querySelector(container);
-  this.slides = this.container.children;
+
+  try {
+    this.slides = this.container.children;
+  } catch (error) {}
+
   this.btns = document.querySelectorAll(btns);
   this.prev = document.querySelector(prev);
   this.next = document.querySelector(next);
