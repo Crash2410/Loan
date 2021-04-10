@@ -20199,6 +20199,12 @@ window.addEventListener('DOMContentLoaded', function () {
     container: '.page'
   });
   slider.render();
+  var modulePageSlider = new _modules_slider_slider_main__WEBPACK_IMPORTED_MODULE_0__["default"]({
+    container: '.moduleapp',
+    btns: '.next',
+    prevBtns: '.prev'
+  });
+  modulePageSlider.render();
   var showUpSlider = new _modules_slider_slider_mini__WEBPACK_IMPORTED_MODULE_1__["default"]({
     container: '.showup__content-slider',
     prev: '.showup__prev',
@@ -20677,16 +20683,18 @@ var MainSlider =
 function (_Slider) {
   _inherits(MainSlider, _Slider);
 
-  function MainSlider(btns) {
+  function MainSlider(btns, prevBtns) {
     _classCallCheck(this, MainSlider);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(MainSlider).call(this, btns));
+    return _possibleConstructorReturn(this, _getPrototypeOf(MainSlider).call(this, btns, prevBtns));
   } // Показ слайдов
 
 
   _createClass(MainSlider, [{
     key: "showSlides",
     value: function showSlides(n) {
+      var _this = this;
+
       // Переключение на первый слайд, если слайдер дошел до последнего слайдера
       if (n > this.slides.length) {
         this.slideIndex = 1;
@@ -20700,9 +20708,24 @@ function (_Slider) {
 
       this.slides.forEach(function (slide) {
         slide.style.display = 'none';
-      }); // Скрытие всплывающего блока на 3-м слайде
+      });
 
-      this.hanson.style.opacity = '0'; // По умолчанию показ первого слайда
+      try {
+        // Скрытие всплывающего блока на 3-м слайде
+        this.hanson.style.opacity = '0'; // Показ всплывающего блока при попадании на 3-й слайд
+
+        if (n == 3) {
+          this.hanson.classList.add('animated');
+          setTimeout(function () {
+            _this.hanson.style.opacity = '1';
+
+            _this.hanson.classList.add('slideInUp');
+          }, 3000);
+        } else {
+          this.hanson.classList.remove('slideInUp');
+        }
+      } catch (e) {} // По умолчанию показ первого слайда
+
 
       this.slides[this.slideIndex - 1].style.display = 'block';
     } // Добавление слайдеров(изменение счетчита slideIndex в зависимости от переключения слайдера, вперед или назад)
@@ -20711,55 +20734,53 @@ function (_Slider) {
     key: "plusSlider",
     value: function plusSlider(n) {
       this.showSlides(this.slideIndex += n);
-    } // Показ всплывающего блока при попадании на 3-й слайд
+    } // Работа с триггерами
 
   }, {
-    key: "showMessageBlock",
-    value: function showMessageBlock() {
-      var _this = this;
+    key: "bindTriggers",
+    value: function bindTriggers() {
+      var _this2 = this;
 
-      if (this.slideIndex == 3) {
-        this.hanson.classList.add('animated'); // Показ блока через 3 секунды
+      // Перелистывание слайдов
+      this.btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          _this2.plusSlider(1);
+        }); // Нажав на логотип, показывается первый слайд
 
-        setTimeout(function () {
-          _this.hanson.style.opacity = '1';
+        btn.parentNode.previousElementSibling.addEventListener('click', function (e) {
+          e.preventDefault();
+          _this2.slideIndex = 1;
 
-          _this.hanson.classList.add('slideInUp');
-        }, 3000);
-      } else {
-        this.hanson.classList.remove('slideInUp');
-      }
+          _this2.showSlides(_this2.slideIndex);
+        });
+      });
+      /*
+          слайдер на второй странице
+      */
+
+      this.prevBtns.forEach(function (item) {
+        item.addEventListener('click', function (e) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          _this2.plusSlider(-1);
+        });
+      });
     } // Инициализация слайдера
 
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      try {
+      if (this.container) {
         // Всплывающий блок
         try {
           this.hanson = document.querySelector('.hanson');
-        } catch (e) {} // Перелистывание слайдов
+        } catch (e) {} // Показ слайда
 
-
-        this.btns.forEach(function (btn) {
-          btn.addEventListener('click', function () {
-            _this2.plusSlider(1);
-
-            _this2.showMessageBlock();
-          }); // Нажав на логотип, показывается первый слайд
-
-          btn.parentNode.previousElementSibling.addEventListener('click', function (e) {
-            e.preventDefault();
-            _this2.slideIndex = 1;
-
-            _this2.showSlides(_this2.slideIndex);
-          });
-        }); // Показ слайда
 
         this.showSlides(this.slideIndex);
-      } catch (error) {}
+        this.bindTriggers();
+      }
     }
   }]);
 
@@ -20969,6 +20990,8 @@ var Slider = function Slider() {
       next = _ref$next === void 0 ? null : _ref$next,
       _ref$prev = _ref.prev,
       prev = _ref$prev === void 0 ? null : _ref$prev,
+      _ref$prevBtns = _ref.prevBtns,
+      prevBtns = _ref$prevBtns === void 0 ? null : _ref$prevBtns,
       _ref$activeClass = _ref.activeClass,
       activeClass = _ref$activeClass === void 0 ? '' : _ref$activeClass,
       animate = _ref.animate,
@@ -20985,6 +21008,7 @@ var Slider = function Slider() {
   this.btns = document.querySelectorAll(btns);
   this.prev = document.querySelector(prev);
   this.next = document.querySelector(next);
+  this.prevBtns = document.querySelectorAll(prevBtns);
   this.activeClass = activeClass;
   this.animate = animate;
   this.autoplay = autoplay;
